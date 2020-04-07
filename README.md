@@ -30,12 +30,12 @@ For execute:
  ```sh
  $ make
   ```````
- > Note:
- > `make clear` is available to docker down and clear
- > `make down` is available to docker down
- > `make underground` is available for run in background
- > `make` or `make run` will execute the application(s)
- > `make test` is not implemented in this version
+ > Note:  
+ > `make clear` is available to docker down and clear  
+ > `make down` is available to docker down  
+ > `make underground` is available for run in background  
+ > `make` or `make run` will execute the application(s)  
+ > `make test` is not implemented in this version  
 
 Done!!! congrats the project is up and running 
 
@@ -87,10 +87,12 @@ This will return a sudoku game in a string format as 82 numbers from 1-9, cero i
 When requesting specific sudoku you will need to include the level and index as parameters, the route is the same as the last step.
 
 * if you are working from your browser use `host` + `/sudoku/game?level=medium&index=8`
-* if you are using post man just use `host` + `/sudoku/game` and add the parameters in the params field, remember to include **level** and **index**.
+* if you are using post man just use `host` + `/sudoku/game` and add the parameters in the params field,  
+remember to include **level** and **index**.
 
 remember: for development, the host is set to http://0.0.0.0:8000/
-in this case, will be `http://0.0.0.0:8000/sudoku/game?level=medium&index=8`
+in this case,  
+will be `http://0.0.0.0:8000/sudoku/game?level=medium&index=8`
 
 > Note:
 > There are only three levels `easy`, `medium` and `hard`
