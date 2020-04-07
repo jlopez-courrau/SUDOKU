@@ -9,20 +9,19 @@ services:
     ports:
       - 5000:5000
     env_file:
-      - ./.env.dev
+      - ./.app_env.dev
     depends_on:
       - db
+      - data-provider
   data-provider:
     build: ./services/data-provider
-    command: poetry run python manage.py run -h 0.0.0.0 --port=8000
+    command: poetry run python app.py run -h 0.0.0.0 --port=8000
     volumes:
       - ./services/data-provider:/home/kip/src/data/
     ports:
       - 8000:8000
     env_file:
-      - ./.env.dev # use same as app. check that
-    depends_on:
-      - db
+      - ./.data_provider_env.dev
   db:
     image: postgres:12-alpine
     volumes:
