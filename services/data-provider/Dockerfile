@@ -20,7 +20,9 @@ ENV PYTHONUNBUFFERED 1
 COPY --chown=kip:kip poetry.lock .
 COPY --chown=kip:kip pyproject.toml .
 COPY --chown=kip:kip entrypoint.sh .
-COPY --chown=kip:kip manage.py .
+COPY --chown=kip:kip app.py .
+COPY --chown=kip:kip mypy.ini .
+
 
 #Copy remaining directories
 COPY --chown=kip:kip project project
