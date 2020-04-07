@@ -4,6 +4,9 @@ run : build
 underground: build
 	docker-compose up -d
 
+down:
+	@docker-compose down
+
 test:
 	@echo
 	@echo ======testing not implemented yet======
