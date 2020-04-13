@@ -12,7 +12,7 @@ def index():
     return jsonify(message="Hello from data-provider")
 
 
-@app.route("/sudoku/game", methods=["GET", "POST"])
+@app.route("/sudoku/game")
 def get_game():
     '''get sudoku game'''
     param_level = request.args.get("level", default="easy")
@@ -28,7 +28,7 @@ def get_game():
     )
 
 
-@app.route("/sudoku/valid", methods=["GET", "POST"])
+@app.route("/sudoku/valid")
 def get_valid_game():
     '''check if a sudoku is valid'''
     sudoku = request.args.get("sudoku")
@@ -40,8 +40,8 @@ def get_valid_game():
     return jsonify(result=result, sudoku=sudoku)
 
 
-@app.route("/sudoku/complete", methods=["GET", "POST"])
-def get_is_game_compelte():
+@app.route("/sudoku/complete")
+def get_is_game_complete():
     '''check if a sudoku is complete and valid '''
     sudoku = request.args.get("sudoku")
 
