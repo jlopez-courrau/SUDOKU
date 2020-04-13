@@ -5,8 +5,9 @@ SUDOKU provider
 
 from flask.cli import FlaskGroup
 from project import app
-from project.routes import index, get_game, get_valid_game,\
-    get_is_game_compelte
+from project.routes import (index, get_game, get_valid_game,
+                            get_is_game_complete
+                            )
 
 
 cli = FlaskGroup(app)

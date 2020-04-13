@@ -1,53 +1,43 @@
-"""
-Application routes
-"""
-from flask import jsonify, request
+'''Application routes'''
+from flask import jsonify
 from project import app
 from project.sudoku import get_sudoku_game, valid_game, is_game_compelte
 
 
-@app.route("/")
+@app.route('/')
 def index():
     '''Simple Hello response'''
-    return jsonify(message="Hello from data-provider")
+    return jsonify(message='Hello from data-provider')
 
 
-@app.route("/sudoku/game")
-def get_game():
+@app.route('/sudoku/game/', defaults={'dificulty':'easy', 'level':0})
+@app.route('/sudoku/game/<string:dificulty>/<int:level>')
+def get_game(dificulty, level):
     '''get sudoku game'''
-    param_level = request.args.get("level", default="easy")
-    param_index = int(request.args.get("index", default=0))
-    sudoku_game, sudoku_solution, sudoku_level, sudoku_index = \
-        get_sudoku_game(param_level, param_index)
+    print(dificulty)
+    print(level)
+    sudoku_game, sudoku_solution, sudoku_dificulty, sudoku_level = (
+        get_sudoku_game(dificulty, level)
+    )
 
     return jsonify(
+        dificulty=sudoku_dificulty,
         level=sudoku_level,
-        index=sudoku_index,
         sudoku=sudoku_game,
         solution=sudoku_solution
     )
 
 
-@app.route("/sudoku/valid")
-def get_valid_game():
+@app.route("/sudoku/valid/<string:sudoku>")
+def get_valid_game(sudoku):
     '''check if a sudoku is valid'''
-    sudoku = request.args.get("sudoku")
-
-    if not sudoku:
-        return jsonify("Invalid request"), 406
-
     result = valid_game(sudoku)
     return jsonify(result=result, sudoku=sudoku)
 
 
-@app.route("/sudoku/complete")
-def get_is_game_complete():
+@app.route("/sudoku/complete/<string:sudoku>")
+def get_is_game_complete(sudoku):
     '''check if a sudoku is complete and valid '''
-    sudoku = request.args.get("sudoku")
-
-    if not sudoku:
-        return jsonify("Invalid request"), 406
-
     result = is_game_compelte(sudoku)
     return jsonify(result=result, sudoku=sudoku)
 
