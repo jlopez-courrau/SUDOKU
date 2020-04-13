@@ -1,15 +1,13 @@
-"""
-SUDOKU handler
+"""SUDOKU handler
+
 for library documentation please go to: https://pypi.org/project/basicsudoku/
 """
+
 from typing import Tuple
 from basicsudoku import SudokuBoard, puzzles, solvers
 
 
-def get_sudoku_game(
-        level: str = "easy",
-        index: int = 0
-) -> Tuple[str, str, str, int]:
+def get_sudoku_game(level: str = "easy", index: int = 0) -> Tuple[str, str, str, int]:
     """This method will return a SUDOKU and his solution
 
     :param level: complexity of the game
@@ -61,6 +59,7 @@ def _get_puzzle(level: str, index: int) -> Tuple[str, str, int]:
 
 def valid_game(sudoku: str) -> bool:
     """This method check if a sudoku is valid
+
     :param sudoku:  sudoku game
     @return:  valid game
     """
@@ -71,6 +70,7 @@ def valid_game(sudoku: str) -> bool:
 
 def is_game_compelte(sudoku: str) -> bool:
     """This method check if a sudoku is complete
+
     :param sudoku:  sudoku game
     @return:  valid game
     """
