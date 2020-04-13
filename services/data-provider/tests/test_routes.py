@@ -25,39 +25,38 @@ def test_hello_page(client):
 
 
 def test_sudoku_default(client):
-    url = "/sudoku/game"
+    url = "/sudoku/game/"
     response = client.get(url)
     assert response.status_code == 200
     assert b"0" in response.data
     assert b"easy" in response.data
-    assert b"index" in response.data
     assert b"level" in response.data
+    assert b"dificulty" in response.data
     assert b"solution" in response.data
     assert b"sudoku" in response.data
 
 
 def test_sudoku(client):
-    url = "/sudoku/game"
-    param = "?level=medium&index=1"
+    url = "/sudoku/game/"
+    param = "medium/1"
 
-    response = client.post(url + param)
+    response = client.get(url + param)
 
     assert response.status_code == 200
     assert b"0" not in response.data
     assert b"medium" in response.data
-    assert b"index" in response.data
+    assert b"dificulty" in response.data
     assert b"level" in response.data
     assert b"solution" in response.data
     assert b"sudoku" in response.data
 
 
 def test_invalid_game(client):
-    url = "/sudoku/valid"
-    data = (
+    url = "/sudoku/valid/"
+    param = (
         "..3.2.6..9.33.5..1..18.64....81.29..7.......8..67.82...."
         + "26.95..8..2.3..9..5.1.3.."
     )
-    param = "?sudoku=" + data
 
     response = client.get(url + param)
 
@@ -68,12 +67,11 @@ def test_invalid_game(client):
 
 
 def test_valid_game(client):
-    url = "/sudoku/valid"
-    data = (
+    url = "/sudoku/valid/"
+    param = (
         "..3.2.6..9..3.5..1..18.64....81.29..7.......8..67.82...."
         + "26.95..8..2.3..9..5.1.3.."
     )
-    param = "?sudoku=" + data
 
     response = client.get(url + param)
 
@@ -84,12 +82,11 @@ def test_valid_game(client):
 
 
 def test_incomplete_game(client):
-    url = "/sudoku/complete"
-    data = (
+    url = "/sudoku/complete/"
+    param = (
         "..3.2.6..9..3.5..1..18.64....81.29..7.......8..67.82...."
         + "26.95..8..2.3..9..5.1.3.."
     )
-    param = "?sudoku=" + data
 
     response = client.get(url + param)
 
@@ -100,12 +97,11 @@ def test_incomplete_game(client):
 
 
 def test_complete_invalid_game(client):
-    url = "/sudoku/complete"
-    data = (
+    url = "/sudoku/complete/"
+    param = (
         "333322669998336564134187643456817291172233445866677828891239"
         + "261952281123344955389"
     )
-    param = "?sudoku=" + data
 
     response = client.get(url + param)
 
@@ -116,12 +112,11 @@ def test_complete_invalid_game(client):
 
 
 def test_complete_game(client):
-    url = "/sudoku/complete"
-    data = (
+    url = "/sudoku/complete/"
+    param = (
         "483921657967345821251876493548132976729564138136798245372689"
         + "514814253769695417382"
     )
-    param = "?sudoku=" + data
 
     response = client.get(url + param)
 
