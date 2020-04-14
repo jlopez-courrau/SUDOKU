@@ -3,58 +3,63 @@
 for library documentation please go to: https://pypi.org/project/basicsudoku/
 """
 
-from typing import Tuple
+from dataclasses import dataclass
+
 from basicsudoku import SudokuBoard, puzzles, solvers
 
 
-def get_sudoku_game(level: str = "easy", index: int = 0) -> Tuple[str, str, str, int]:
-    """This method will return a SUDOKU and his solution
+@dataclass
+class SudokuGame:
+    """Class for sudoku elements"""
 
-    :param level: complexity of the game
-    :param index: game list index
+    difficulty: str
+    level: int
+    sudoku: str
+    solution: str
 
-    :return: game, game solution, level, index
+    def __init__(self, sudoku: str, difficulty: str, level: int):
+        self.sudoku = sudoku
+        self.difficulty = difficulty
+        self.level = level
+        self.solution = self._solve()
 
-    :raise:
-        ValueError: Invalid difficulty level
-        ValueError: Invalid index
-        Exception: End of games
-    """
-    game = SudokuBoard()
-    game.symbols, game_level, game_index = _get_puzzle(level, index)
-
-    solution = SudokuBoard(game.symbols)
-    solvers.BasicSolver(solution)
-    return game.symbols, solution.symbols, game_level, game_index
+    def _solve(self):
+        """This method will return the sudoku solution"""
+        new_bord = SudokuBoard(self.sudoku)
+        solvers.BasicSolver(new_bord)
+        return new_bord.symbols
 
 
-def _get_puzzle(level: str, index: int) -> Tuple[str, str, int]:
+def get_sudoku_game(difficulty: str = "easy", level: int = 0) -> SudokuGame:
     """This method get the sudoku game from library
 
-    :param level: complexity of the game
-    :param index: game list index
-    :return:  sudoku symbols, level, index
+    :param difficulty: complexity of the game
+    :param level: game list index
+    :return:  sudoku, solution, index, difficulty wrap on SudokuGame dataclass
 
     :raise:
-        ValueError: Invalid difficulty level
-        ValueError: Invalid index
+        ValueError: Invalid difficulty
+        ValueError: Invalid level
         Exception: End of games
     """
-    if index < 0:
-        raise ValueError("Invalid index, should be a positive value")
-    if level == "easy" or level.lower == "easy":
-        if index < len(puzzles.easy50):
-            return puzzles.easy50[index], level, index
-        return _get_puzzle("medium", 0)
-    if level == "medium" or level.lower == "medium":
-        if index < len(puzzles.top95):
-            return puzzles.top95[index], level, index
-        return _get_puzzle("hard", 0)
-    if level == "hard" or level.lower == "hard":
-        if index < len(puzzles.hardest):
-            return puzzles.hardest[index], level, index
-        raise Exception("End of game", "no more games")
-    raise ValueError("Invalid difficulty level")
+    puzzle = None
+    if level < 0:
+        raise ValueError("Invalid level, should be a positive value")
+    if difficulty == "easy" or difficulty.lower == "easy":
+        if level >= len(puzzles.easy50):
+            return get_sudoku_game("medium", 0)
+        puzzle = puzzles.easy50[level]
+    elif difficulty == "medium" or difficulty.lower == "medium":
+        if level >= len(puzzles.top95):
+            return get_sudoku_game("hard", 0)
+        puzzle = puzzles.top95[level]
+    elif difficulty == "hard" or difficulty.lower == "hard":
+        if level >= len(puzzles.hardest):
+            raise Exception("End of game", "no more games")
+        puzzle = puzzles.hardest[level]
+    if not puzzle:
+        raise ValueError("Invalid difficulty")
+    return SudokuGame(sudoku=puzzle, level=level, difficulty=difficulty)
 
 
 def valid_game(sudoku: str) -> bool:

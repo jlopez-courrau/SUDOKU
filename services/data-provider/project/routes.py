@@ -14,17 +14,14 @@ def index():
 @app.route("/sudoku/game/<string:dificulty>/<int:level>")
 def get_game(dificulty, level):
     """get sudoku game"""
-    print(dificulty)
-    print(level)
-    sudoku_game, sudoku_solution, sudoku_dificulty, sudoku_level = get_sudoku_game(
-        dificulty, level
-    )
+
+    sudoku_game = get_sudoku_game(dificulty, level)
 
     return jsonify(
-        dificulty=sudoku_dificulty,
-        level=sudoku_level,
-        sudoku=sudoku_game,
-        solution=sudoku_solution,
+        dificulty=sudoku_game.difficulty,
+        level=sudoku_game.level,
+        sudoku=sudoku_game.sudoku,
+        solution=sudoku_game.solution
     )
 
 
