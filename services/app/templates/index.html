@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1 class="title">
+    SUDOKU
+  </h1>
+  <img src="{{url_for('static', filename='images/sudoku-art.png')}}" height="400" width="400">
+  <h2 class="subtitle">
+    {% if current_user.is_authenticated  %}
+      Go to Games to play.
+    {% else %}
+      Please Login.
+    {% endif %}
+  </h2>
+{% endblock %}

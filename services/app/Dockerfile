@@ -27,6 +27,8 @@ COPY --chown=kip:kip entrypoint.sh .
 #Copy remaining directories
 COPY --chown=kip:kip project project
 COPY --chown=kip:kip tests tests
+COPY --chown=kip:kip templates templates
+COPY --chown=kip:kip static static
 
 # Install project requirements
 RUN poetry install

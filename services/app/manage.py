@@ -1,28 +1,36 @@
-"""
-TODO: Add docstring
-File: manage.py
-Author: yourname
-Description:
-"""
+"""TODO"""
 from flask.cli import FlaskGroup
-from project import app #, db, add db models here
+from werkzeug.security import generate_password_hash
+from project import db, create_app
+from project.models import User
 
-cli = FlaskGroup(app)
+cli = FlaskGroup()
 
 
 @cli.command("create_db")
 def create_db():
-    # db.drop_all()
-    # db.create_all()
-    # db.session.commit()
-    print("TODO")
+    """Create the DB tables"""
+    db.drop_all()
+    db.create_all(app=create_app())
+    db.session.commit()
+    print("*Tables Done*")
 
 
 @cli.command("seed_db")
 def seed_db():
-    # db.session.add(#something)
-    # db.session.commit()
-    pass
+    """This will insert dummy data for testing"""
+    db.session.add(
+        User(
+            email="test@mail.com",
+            name="test",
+            password=generate_password_hash("test", method="sha256"),
+        )
+    )
+    db.session.commit()
+    print("User added as test")
+
+
+##fds,fmdmnfdnjfdfndnfdd
 
 
 if __name__ == "__main__":

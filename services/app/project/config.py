@@ -1,9 +1,13 @@
+"""Project general configurataion"""
+
 import os
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-
-# add db informetion here
 
 class Config:
-    """TODO: this will change"""
+    """Flask configuration"""
+
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite://")
+
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    SECRET_KEY = "xND4o83AFZTuax4dfde3452"

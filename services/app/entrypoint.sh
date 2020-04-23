@@ -15,8 +15,10 @@ fi
 if [ "$FLASK_ENV" = "development" ]
 then
     echo "Creating the database tables..."
-    python manage.py create_db
+    poetry run python manage.py create_db
     echo "Tables created"
+    poetry run python manage.py seed_db
+    echo "Test Data added"
 fi
 
 exec "$@"
