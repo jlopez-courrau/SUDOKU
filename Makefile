@@ -1,17 +1,15 @@
-run : build
-	docker-compose up
+run :
+	@docker-compose up
 
-underground: build
-	docker-compose up -d
+underground:
+	@docker-compose up -d
 
 down:
 	@docker-compose down
 
 test:
-	@echo
-	@echo ======testing not implemented yet======
-	@echo ======     but will be        ...======
-	@echo
+	@docker-compose exec data-provider poetry run pytest
+	# add app testing when done
 
 clear:
 	@docker-compose down -v --rmi all --remove-orphans
@@ -19,4 +17,4 @@ clear:
 clean: clear
 
 build:
-	docker-compose build
+	@docker-compose build
