@@ -1,10 +1,9 @@
-"""TODO"""
 from flask.cli import FlaskGroup
 from werkzeug.security import generate_password_hash
 from project import db, create_app
 from project.models import User
 
-cli = FlaskGroup()
+cli = FlaskGroup(create_app())
 
 
 @cli.command("create_db")
@@ -13,12 +12,11 @@ def create_db():
     db.drop_all()
     db.create_all(app=create_app())
     db.session.commit()
-    print("*Tables Done*")
 
 
 @cli.command("seed_db")
 def seed_db():
-    """This will insert dummy data for testing"""
+    """This will insert data for testing purpose"""
     db.session.add(
         User(
             email="test@mail.com",
@@ -26,11 +24,8 @@ def seed_db():
             password=generate_password_hash("test", method="sha256"),
         )
     )
-    db.session.commit()
     print("User added as test")
-
-
-##fds,fmdmnfdnjfdfndnfdd
+    db.session.commit()
 
 
 if __name__ == "__main__":

@@ -6,25 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{url_for('static', filename='images/sudoku.ico') }}" type="image/gif" sizes="16x16">
     <title>SUDOKU</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
-    <style>
-* {
-  box-sizing: border-box;
-}
-
-.column {
-  float: left;
-  width: 33.33%;
-
-}
-/* Clearfix (clear floats) */
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma.min.css')}}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}"/>
   </head>
   <body>
     <section class="hero is-link is-fullheight">

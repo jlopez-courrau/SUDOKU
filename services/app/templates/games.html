@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block content %}
   <h1 class="title">
     Welcome, {{name}}! please choose your level!!
@@ -7,19 +6,19 @@
   <br>
   <div class="row" >
     <div class="column">
-      <a >
+      <a href="{{ url_for('main.sudoku', dificulty='easy')}}" >
         <img alt="easy" src="{{url_for('static', filename='images/Villager-icon.png')}}">
         <p>Easy</p>
       </a>
     </div>
     <div class="column">
-      <a >
+      <a href="{{ url_for('main.sudoku', dificulty='medium')}}">
         <img alt="medium" src="{{url_for('static', filename='images/Viking-icon.png')}}">
         <p>Medium</p>
       </a>
     </div>
     <div class="column" >
-      <a >
+      <a href="{{ url_for('main.sudoku', dificulty='hard')}}">
         <img alt="hard" src="{{url_for('static', filename='images/Knight-icon.png')}}">
         <p>Hard</p>
       </a>
