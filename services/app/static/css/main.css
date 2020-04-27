@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+.column {
+  float: left;
+  width: 33.33%;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.sudoku__table-cell--editable {
+  color: #2020df;
+}
+.sudoku__table-cell {
+  text-align: center;
+  width: 55px;
+  height: 55px;
+  border-right: 1px solid #444;
+  border-bottom: 1px solid #444;
+}
+.sudoku__table-cell--separator {
+  border-right: 4px solid #444;
+}
+.td {
+  display: table-cell;
+  vertical-align: inherit;
+}
+.sudoku__table-row--separator {
+  border-bottom: 4px solid #444;
+}
+
+.sudoku__table {
+  font-size: 1.5em;
+  border-top: 4px solid #444;
+  border-left: 4px solid #444;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+.table {
+  border-collapse: separate;
+  border-spacing: 2px;
+  box-sizing: border-box;
+}
+.sudoku {
+  color: #444;
+  margin: auto;
+}
+.center {
+  margin: auto;
+}

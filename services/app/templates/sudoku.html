@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+  <h6 class="title">Level {{level + 1}}</h6>
+  <div id="sudoku" class="sudoku">
+    <table class="sudoku__table" align="center">
+      <tbody>
+        {%set index = namespace(value=0) %}
+        {%set row_class = namespace(value="") %}
+        {%set cell_class = namespace(value="") %}
+        {% for row in range(1, 10) %}
+          {%set row_class.value = "sudoku__table-row " %}
+          {% if row % 3 == 0 %}
+            {%set row_class.value = row_class.value + "sudoku__table-row--separator"%}
+          {%endif%}
+          <tr class="{{row_class.value}}">
+            {% for cell in range (1, 10) %}
+              {%set cell_class.value = "sudoku__table-cell " %}
+              {% if cell % 3 == 0 %}
+                {%set cell_class.value = cell_class.value + "sudoku__table-cell--separator "%}
+              {%endif%}
+              {% if sudoku[index.value] == '.'%}
+                {%set cell_class.value = cell_class.value + "sudoku__table-cell--editable"%}
+                <td class="{{cell_class.value}}" data-cell-index="{{index.value}}" contenteditable>
+                {%else%}
+                  <td class="{{cell_class.value}}" data-cell-index="{{index.value}}" >
+                    {{sudoku[index.value]}}
+                  {%endif%}
+                  {%set index.value = index.value + 1%}
+                  </td>
+                  {%endfor%}
+          </tr>
+        {%endfor%}
+    </table>
+  </div>
+{% endblock%}
