@@ -94,7 +94,7 @@ in this case, will be `http://0.0.0.0:8000/sudoku/game?level=medium&index=8`
 > There are only three levels `easy`, `medium` and `hard`
 > If your index is bigger than the existing games on that level it will return the first game from the next level, however, there are no more games after hard.
 
-other routes will be added soon** to this document
+other routes will be added soon** to this document  
 **Soon As defined by Blizzard Entertainment.
 
 this document will continue...
