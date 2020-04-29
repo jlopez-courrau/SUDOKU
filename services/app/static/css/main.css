@@ -17,17 +17,19 @@
 }
 .sudoku__table-cell {
   text-align: center;
-  width: 55px;
   height: 55px;
+  width: 55px;
   border-right: 1px solid #444;
   border-bottom: 1px solid #444;
 }
 .sudoku__table-cell--separator {
   border-right: 4px solid #444;
 }
-.td {
+td {
   display: table-cell;
-  vertical-align: inherit;
+  max-width: 55px;
+  max-height: 55px;
+  overflow: hidden;
 }
 .sudoku__table-row--separator {
   border-bottom: 4px solid #444;
@@ -44,6 +46,8 @@
   border-collapse: separate;
   border-spacing: 2px;
   box-sizing: border-box;
+  table-layout: fixed;
+  width: 100%;
 }
 .sudoku {
   color: #444;
