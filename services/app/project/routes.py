@@ -1,6 +1,6 @@
 """TODO"""
 import requests
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, jsonify
 from flask_login import current_user, login_required
 
 from project.models import UserGame
@@ -53,3 +53,21 @@ def sudoku(dificulty):
         dificulty=dificulty,
         solution=load_game.solution,
     )
+
+
+@routes.route("/sudoku/add/move/<string:dificulty>/<int:index>", methods=["PUT"])
+@login_required
+def sudoku_add_move(dificulty, index):
+    result = False
+    game_over = False
+    load_game = UserGame.query.filter_by(
+        user_id=current_user.id, dificulty=dificulty
+    ).first()
+    if not load_game or load_game.current_game != load_game.solution:
+        current_game = list(load_game.current_game)
+        current_game[index] = load_game.solution[index]
+        load_game.current_game = "".join(current_game)
+        db.session.commit()
+        result = True
+        game_over = load_game.current_game == load_game.solution
+    return jsonify(result=result, game_over=game_over)

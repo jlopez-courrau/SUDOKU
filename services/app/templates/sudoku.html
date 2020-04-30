@@ -13,27 +13,27 @@
             {%set row_class.value = row_class.value + "sudoku__table-row--separator" %}
           {%endif%}
           <tr class="{{row_class.value}}">
-            {%for cell in range (1, 10) %}
-              {%set cell_class.value = "sudoku__table-cell " %}
-              {%if cell % 3 == 0 %}
-                {%set cell_class.value = cell_class.value + "sudoku__table-cell--separator " %}
+          {%for cell in range (1, 10) %}
+            {%set cell_class.value = "sudoku__table-cell " %}
+            {%if cell % 3 == 0 %}
+              {%set cell_class.value = cell_class.value + "sudoku__table-cell--separator " %}
+            {%endif%}
+            {%if sudoku[index.value] == '.' %}
+              {%set cell_class.value = cell_class.value + "sudoku__table-cell--editable" %}
+              <td class="{{cell_class.value}}" data-cell-index="{{index.value}}" contenteditable >
+            {%else%}
+              <td class="{{cell_class.value}}" data-cell-index="{{index.value}}" >
+              {{sudoku[index.value]}}
               {%endif%}
-              {%if sudoku[index.value] == '.' %}
-                {%set cell_class.value = cell_class.value + "sudoku__table-cell--editable" %}
-                <td class="{{cell_class.value}}" data-cell-index="{{index.value}}" contenteditable >
-                {%else%}
-                  <td class="{{cell_class.value}}" data-cell-index="{{index.value}}" >
-                    {{sudoku[index.value]}}
-                  {%endif%}
-                  {%set index.value = index.value + 1%}
-                  </td>
-                  {%endfor%}
+              {%set index.value = index.value + 1%}
+              </td>
+          {%endfor%}
           </tr>
-                {%endfor%}
+        {%endfor%}
       </tbody>
     </table>
   </div>
-  <script charset="utf-8">
+  <script charset="utf-8">//TODO: Move this script to js file
     var editable = document.getElementsByTagName("td");
     var i;
     for (i = 0; i < editable.length; i++) {
@@ -43,15 +43,27 @@
         this.style.color = "#2020df";
         if ( this.innerHTML!==""){
           var data = Number(this.innerHTML);
-          if(data <= 9){
+          if (data <= 9){
             var index = Number(this.getAttribute("data-cell-index"));
             var s = '{{ solution }}' ;
             if (Number(s[index]) == data){
               this.setAttribute("contenteditable",false)
-              //save
-              // make a request to save this move
-              //check if game is over
-              // work in progress
+              // save
+              $.ajax({
+                type : "PUT",
+                url : '/sudoku/add/move/{{dificulty}}/' + index,
+                dataType: "json",
+                contentType: 'application/json;charset=UTF-8',
+                success: function (data) {
+                  if(data.game_over){
+                    $.alert({//TODO: chance for ask next or done?, ? when level is done?
+                      title: 'Congratulations!',
+                      content: 'This Sudoku is Done',
+                    });
+                    location.reload();
+                  }
+                }
+              });
             }else{
               //wrong Answer
               this.style.background = "#fdd";
@@ -62,7 +74,7 @@
             this.style.background = "#f66d6d";
             this.style.color = "white";
             //only allow to display two chars to avoid deformations
-            if(this.innerHTML.length>2){
+            if (this.innerHTML.length > 2){
               this.innerHTML = this.innerHTML.substr(0,2);
             }
           }
