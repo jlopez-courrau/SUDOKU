@@ -1,8 +1,8 @@
 """TODO"""
 from flask import Flask
 from flask.cli import FlaskGroup
-from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager  # pylint: disable=import-error
 
 from .config import Config
 
@@ -32,6 +32,7 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
+        """Load user by user_id and not by id"""
         return User.query.get(int(user_id))
 
     return app

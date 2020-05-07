@@ -1,11 +1,12 @@
 """TODO"""
 from flask import Blueprint, flash, redirect, render_template, request, url_for
-from flask_login import login_required, login_user, logout_user
+from flask_login import (  # pylint: disable=import-error
+    login_required,
+    login_user,
+    logout_user,
+)
 from werkzeug.security import check_password_hash, generate_password_hash
-
-
 from project.models import User
-
 from . import db
 
 auth = Blueprint(
