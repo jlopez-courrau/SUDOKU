@@ -9,7 +9,7 @@ down:
 
 test:
 	@docker-compose exec data-provider poetry run pytest
-	# add app testing when done
+	@docker-compose exec app           poetry run pytest
 
 clear:
 	@docker-compose down -v --rmi all --remove-orphans
