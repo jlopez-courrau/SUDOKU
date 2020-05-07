@@ -23,7 +23,7 @@ class SudokuGame:
         self.level = level
         self.solution = self._solve()
 
-    def _solve(self):
+    def _solve(self) -> str:
         """This method will return the sudoku solution"""
         new_bord = SudokuBoard(self.sudoku)
         solvers.BasicSolver(new_bord)

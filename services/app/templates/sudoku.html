@@ -18,68 +18,27 @@
             {%if cell % 3 == 0 %}
               {%set cell_class.value = cell_class.value + "sudoku__table-cell--separator " %}
             {%endif%}
-            {%if sudoku[index.value] == '.' %}
-              {%set cell_class.value = cell_class.value + "sudoku__table-cell--editable" %}
-              <td class="{{cell_class.value}}" data-cell-index="{{index.value}}" contenteditable >
-            {%else%}
+            {%if sudoku[index.value] != '.'%}
               <td class="{{cell_class.value}}" data-cell-index="{{index.value}}" >
               {{sudoku[index.value]}}
+            {%else %}
+              {%set cell_class.value = cell_class.value + "sudoku__table-cell--editable" %}
+              <td class="{{cell_class.value}}" data-cell-index="{{index.value}}" contenteditable >
+              {%if user_game[index.value] != '.'%}  
+                {{user_game[index.value]}}
               {%endif%}
-              {%set index.value = index.value + 1%}
-              </td>
+            {%endif%}
+            {%set index.value = index.value + 1%}
+            </td>
           {%endfor%}
           </tr>
         {%endfor%}
       </tbody>
     </table>
   </div>
-  <script charset="utf-8">//TODO: Move this script to js file
-    var editable = document.getElementsByTagName("td");
-    var i;
-    for (i = 0; i < editable.length; i++) {
-      editable[i].addEventListener("input", function() {
-        //normal style <for remove errors/default>
-        this.style.background = "#fff";
-        this.style.color = "#2020df";
-        if ( this.innerHTML!==""){
-          var data = Number(this.innerHTML);
-          if (data <= 9){
-            var index = Number(this.getAttribute("data-cell-index"));
-            var s = '{{ solution }}' ;
-            if (Number(s[index]) == data){
-              this.setAttribute("contenteditable",false)
-              // save
-              $.ajax({
-                type : "PUT",
-                url : '/sudoku/add/move/{{dificulty}}/' + index,
-                dataType: "json",
-                contentType: 'application/json;charset=UTF-8',
-                success: function (data) {
-                  if(data.game_over){
-                    $.alert({//TODO: chance for ask next or done?, ? when level is done?
-                      title: 'Congratulations!',
-                      content: 'This Sudoku is Done',
-                    });
-                    location.reload();
-                  }
-                }
-              });
-            }else{
-              //wrong Answer
-              this.style.background = "#fdd";
-              this.style.color = "red";
-            }
-          }else{
-            //inavlid data - (number greater than 9 or char(s))
-            this.style.background = "#f66d6d";
-            this.style.color = "white";
-            //only allow to display two chars to avoid deformations
-            if (this.innerHTML.length > 2){
-              this.innerHTML = this.innerHTML.substr(0,2);
-            }
-          }
-        }
-      }, false);
-    }
+  <script charset="utf-8">
+    $(document).ready(function(){
+     AddValidations("{{dificulty}}")
+   });
   </script>
 {% endblock%}

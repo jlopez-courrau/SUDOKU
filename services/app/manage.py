@@ -1,3 +1,4 @@
+"""SUDOKU WEB application"""
 from flask.cli import FlaskGroup
 from werkzeug.security import generate_password_hash
 from project import db, create_app

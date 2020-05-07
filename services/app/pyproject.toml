@@ -21,6 +21,8 @@ isort = "^4.3.21"
 psycopg2-binary = "^2.8.5"
 werkzeug = "^1.0.1"
 requests = "^2.23.0"
+pylint-flask-sqlalchemy = "^0.2.0"
+pytest-flask = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
