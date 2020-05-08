@@ -14,21 +14,29 @@ auth = Blueprint(
 )
 
 
-@auth.route("/login")
+@auth.route("/login", methods=["GET", "POST"])
 def login():
-    """Login page (GET)"""
-    return render_template("login.html")
+    """LogIn Page"""
+    if request.method == "GET":
+        return render_template("login.html")
+    email = request.form.get("email")
+    password = request.form.get("password")
+    remember = bool(request.form.get("remember"))
+
+    user = User.query.filter_by(email=email).first()
+
+    if not user or not check_password_hash(user.password, password):
+        flash("Please check your login details and try again.")
+        return redirect(url_for("auth.login"))
+    login_user(user, remember=remember)
+    return redirect(url_for("main.games"))
 
 
-@auth.route("/signup")
+@auth.route("/signup", methods=["GET", "POST"])
 def signup():
-    """SignUp page (GET)"""
-    return render_template("signup.html")
-
-
-@auth.route("/signup", methods=["POST"])
-def signup_post():
-    """SignUp Page POST"""
+    """SignUp Page"""
+    if request.method == "GET":
+        return render_template("signup.html")
     email = request.form.get("email")
     name = request.form.get("name")
     password = request.form.get("password")
@@ -57,19 +65,3 @@ def logout():
     """LogOut Page"""
     logout_user()
     return redirect(url_for("main.index"))
-
-
-@auth.route("/login", methods=["POST"])
-def login_post():
-    """LogIn Page POST"""
-    email = request.form.get("email")
-    password = request.form.get("password")
-    remember = bool(request.form.get("remember"))
-
-    user = User.query.filter_by(email=email).first()
-
-    if not user or not check_password_hash(user.password, password):
-        flash("Please check your login details and try again.")
-        return redirect(url_for("auth.login"))
-    login_user(user, remember=remember)
-    return redirect(url_for("main.games"))
