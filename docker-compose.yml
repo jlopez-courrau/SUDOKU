@@ -5,11 +5,8 @@ services:
     build: ./services/app
     command: poetry run python manage.py run -h 0.0.0.0 --port=5000
     volumes:
-      # - ./services/app:/home/kip/src/app/
-      - ./services/app/project:/home/kip/src/app/project/
-      - ./services/app/static:/home/kip/src/app/static/
-      - ./services/app/templates:/home/kip/src/app/templates/
-      - ./services/app/tests:/home/kip/src/app/tests/
+      - /home/kip/src/app/.venv
+      - ./services/app:/home/kip/src/app/
     ports:
       - 5000:5000
     env_file:
@@ -21,6 +18,7 @@ services:
     build: ./services/data-provider
     command: poetry run python app.py run -h 0.0.0.0 --port=8000
     volumes:
+      - /home/kip/src/data/.venv
       - ./services/data-provider:/home/kip/src/data/
     ports:
       - 8000:8000
