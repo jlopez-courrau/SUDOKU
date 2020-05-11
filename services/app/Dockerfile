@@ -31,7 +31,7 @@ COPY --chown=kip:kip templates templates
 COPY --chown=kip:kip static static
 
 # Install project requirements
-RUN postry config virtualenvs.in-project true
+RUN poetry config virtualenvs.in-project true
 RUN poetry install -v --no-dev
 
 ENTRYPOINT ["/home/kip/src/app/entrypoint.sh"]
