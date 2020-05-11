@@ -60,7 +60,7 @@ def test_sudoku_hard(client):
 
 
 def test_valid_move(client):
-    url = "/sudoku/move/valid/"
+    url = "/sudoku/valid/move/"
     for number in range(1, 10):
         response = client.get(f"{url}{str(number)}")
         assert response.status_code == 200
@@ -69,7 +69,7 @@ def test_valid_move(client):
 
 
 def test_invalid_move(client):
-    url = "/sudoku/move/valid/"
+    url = "/sudoku/valid/move/"
     invalid_options = [" ", "-1", "0", "10", "a", "A", "-"]
     for value in invalid_options:
         response = client.get(f"{url}{value}")

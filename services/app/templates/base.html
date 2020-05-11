@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{url_for('static', filename='images/sudoku.ico') }}" type="image/gif" sizes="16x16">
     <title>SUDOKU</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma.min.css')}}"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}"/>
     <script src="{{url_for('static', filename='js/jquery-1.10.2.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery-confirm.js')}}"></script>
     <script src="{{url_for('static', filename='js/sudoku.js')}}"></script>
   </head>
   <body>
