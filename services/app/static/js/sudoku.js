@@ -14,7 +14,11 @@ function AddValidations(dificulty) {
 function validateAndPlay(box, dificulty) {
   //normal style <for remove errors/default>
   ResetColor(box);
-  if (box.innerHTML !== "") {
+  if (box.innerHTML === "") {
+    // empty field did not validate
+    console.log("empty field");
+    sudokuMove(box, dificulty, true);
+  } else {
     sudokuValidateAndSaveInput(box, dificulty);
   }
 }
@@ -40,21 +44,25 @@ function limitBoxSize(box) {
   }
 }
 // request
-function sudokuMove(box, dificulty) {
+function sudokuMove(box, dificulty, empty = false) {
   var position = box.getAttribute("data-cell-index");
-  var move = box.innerHTML;
+  var url_move = "/sudoku/move/" + dificulty + "/" + position;
+  if (!empty) {
+    url_move = url_move + "/" +  box.innerHTML;
+  }
+  
   $.ajax({
     type: "PUT",
-    url: "/sudoku/move/" + dificulty + "/" + position + "/" + move,
+    url: url_move,
     dataType: "json",
     contentType: "application/json;charset=UTF-8",
     success: function (data) {
       if (data.valid) {
-        box.setAttribute("contenteditable", false);
         if (data.game_over) {
           $.confirm({
             title: "Congratulations!",
             content: "This Sudoku is Done, new game?",
+            autoClose: "confirm|10000",
             buttons: {
               confirm: function () {
                 location.reload();
@@ -72,8 +80,7 @@ function sudokuMove(box, dificulty) {
 
 function sudokuValidateAndSaveInput(box, dificulty) {
   var move = box.innerHTML;
-  console.log(move);
-  $.get("/sudoku/move/valid/" + move, function (data) {
+  $.get("/sudoku/valid/move/" + move, function (data) {
     if (data.result) {
       sudokuMove(box, dificulty);
     } else {

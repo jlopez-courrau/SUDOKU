@@ -38,13 +38,21 @@ def sudoku(dificulty: str):
         request_sudoku_complete(load_game.current_game) if load_game else False
     )
 
-    if not load_game or is_game_over:
-        level = load_game.level + 1 if load_game else 0
-        load_game = request_sudoku_game(dificulty, level)
+    if not load_game:
+        load_game = request_sudoku_game(dificulty, 0)
         if load_game.sudoku_game:
             load_game.user_id = current_user.id
             db.session.add(load_game)
             db.session.commit()
+    elif is_game_over:
+        new_game = request_sudoku_game(dificulty, load_game.level + 1)
+        if load_game.sudoku_game:
+            load_game.dificulty = new_game.dificulty
+            load_game.level = new_game.level
+            load_game.sudoku_game = new_game.sudoku_game
+            load_game.current_game = new_game.current_game
+            db.session.commit()
+
     return render_template(
         "sudoku.html",
         sudoku=load_game.sudoku_game,
@@ -54,7 +62,7 @@ def sudoku(dificulty: str):
     )
 
 
-@routes.route("/sudoku/move/valid/<string:move>")
+@routes.route("/sudoku/valid/move/<string:move>")
 def sudoku_valid_move(move: str):
     """validate valid move (1~9)"""
     return jsonify(result=is_sudoku_option(move), move=move)
@@ -62,6 +70,11 @@ def sudoku_valid_move(move: str):
 
 @routes.route(
     "/sudoku/move/<string:dificulty>/<int:position>/<int:move>", methods=["PUT"]
+)
+@routes.route(
+    "/sudoku/move/<string:dificulty>/<int:position>",
+    methods=["PUT"],
+    defaults={"move": 0},
 )
 @login_required
 def sudoku_move(dificulty: str, position: int, move: int):
@@ -73,9 +86,9 @@ def sudoku_move(dificulty: str, position: int, move: int):
     ).first()
     if load_game:
         list_game = list(load_game.current_game)
-        list_game[position] = str(move)
+        list_game[position] = str(move) if move != 0 else "."
         current_game = "".join(list_game)
-        valid_move = request_sudoku_valid(current_game)
+        valid_move = request_sudoku_valid(current_game) if move != 0 else True
         if valid_move:
             valid = True
             load_game.current_game = current_game

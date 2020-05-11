@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <h6 class="title">Level {{level + 1}}</h6>
+  <h6 class="title">Level {{dificulty if dificulty != None else ''}} {{level + 1 if level != None else 'Game Over!! try other levels'}}</h6>
   <div id="sudoku" class="sudoku">
     <table class="sudoku__table" align="center">
       <tbody>
@@ -24,7 +24,7 @@
             {%else %}
               {%set cell_class.value = cell_class.value + "sudoku__table-cell--editable" %}
               <td class="{{cell_class.value}}" data-cell-index="{{index.value}}" contenteditable >
-              {%if user_game[index.value] != '.'%}  
+              {%if user_game[index.value] != '.'%}
                 {{user_game[index.value]}}
               {%endif%}
             {%endif%}
