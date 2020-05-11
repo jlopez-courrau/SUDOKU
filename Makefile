@@ -7,7 +7,8 @@ underground:
 down:
 	@docker-compose down
 
-test: underground
+test:
+	@docker-compose up -d
 	@docker-compose exec data-provider poetry run pytest
 	@docker-compose exec app           poetry run pytest
 	@docker-compose down
