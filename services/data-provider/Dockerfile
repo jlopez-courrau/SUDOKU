@@ -29,7 +29,8 @@ COPY --chown=kip:kip project project
 COPY --chown=kip:kip tests tests
 
 # Install project requirements
-RUN poetry install
+RUN poetry config virtualenvs.in-project true
+RUN poetry install -v --no-dev
 
 # Run entrypoint.sh
 ENTRYPOINT ["/home/kip/src/data/entrypoint.sh"]
