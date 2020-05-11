@@ -7,9 +7,10 @@ underground:
 down:
 	@docker-compose down
 
-test:
+test: underground
 	@docker-compose exec data-provider poetry run pytest
 	@docker-compose exec app           poetry run pytest
+	@docker-compose down
 
 clear:
 	@docker-compose down -v --rmi all --remove-orphans
