@@ -3,7 +3,6 @@ version: '3.7'
 services:
   app:
     build: ./services/app
-    command: poetry run python manage.py run -h 0.0.0.0 --port=5000
     volumes:
       - /home/kip/src/app/.venv
       - ./services/app:/home/kip/src/app/
@@ -16,7 +15,6 @@ services:
       - data-provider
   data-provider:
     build: ./services/data-provider
-    command: poetry run python app.py run -h 0.0.0.0 --port=8000
     volumes:
       - /home/kip/src/data/.venv
       - ./services/data-provider:/home/kip/src/data/

@@ -21,4 +21,4 @@ then
     echo "Test Data added"
 fi
 
-exec "$@"
+poetry run python manage.py run -h 0.0.0.0 --port=5000

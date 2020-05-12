@@ -13,4 +13,4 @@ fi
 
 
 
-exec "$@"
+poetry run python app.py run -h 0.0.0.0 --port=8000
